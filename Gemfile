@@ -9,7 +9,7 @@ gem "rails", "~> 7.1.3", ">= 7.1.3.4"
 gem "sprockets-rails"
 
 # Use SCSS for stylesheets [https://sass-lang.com/documentation/syntax]
-gem 'sassc-rails'
+gem "sassc-rails"
 
 # Use sqlite3 as the database for Active Record
 gem "sqlite3", "~> 1.4"

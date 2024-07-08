@@ -1,27 +1,73 @@
-<p>
-  <strong>Meal type:</strong>
-  <%= @entry.meal_type %>
-</p>
+<% content_for :title do %>
+  <%= @entry.meal_type %> &ndash; <%= DateTime.now.to_formatted_s(:log_date) %>
+<% end %>
 
-<p>
-  <strong>Calories:</strong>
-  <%= @entry.calories %>
-</p>
+<div class="columns mt-6 is-centered">
+  <div class="column is-one-third">
+    <nav class="panel is-link">
+      <p class="panel-heading">
+        <%= @entry.meal_type %>
+      </p>
 
-<p>
-  <strong>Proteins:</strong>
-  <%= @entry.proteins %>
-</p>
+      <div class="panel-block">
+        Calories: <%= @entry.calories %>
+      </div>
 
-<p>
-  <strong>Carbohydrates:</strong>
-  <%= @entry.carbohydrates %>
-</p>
+      <div class="panel-block">
+        Proteins: <%= @entry.proteins %>
+      </div>
 
-<p>
-  <strong>Fats:</strong>
-  <%= @entry.fats %>
-</p>
+      <div class="panel-block">
+        Carbohydrates: <%= @entry.carbohydrates %>
+      </div>
 
-<%= link_to 'Edit', edit_entry_path(@entry) %> |
-<%= link_to 'Back', entries_path %>
+      <div class="panel-block">
+        Fats: <%= @entry.fats %>
+      </div>
+    </nav>
+
+    <div class="columns is-mobile">
+      <div class="column">
+        <%= link_to "Edit", edit_entry_path(@entry), class: "button is-gray" %>
+        <%= link_to "Delete", "#", class: "button is-danger", id: "trigger-delete-modal" %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal HTML -->
+<div class="modal" id="delete-modal">
+  <div class="modal-background"></div>
+  <div class="modal-content">
+    <div class="box">
+      <p>Are you sure you want to delete this entry?</p>
+      <div class="buttons">
+        <%= button_to "Yes, Delete", entry_path(@entry), method: :delete, class: "button is-danger" %>
+        <button class="button is-light" id="cancel-delete">Cancel</button>
+      </div>
+    </div>
+  </div>
+  <button class="modal-close is-large" aria-label="close"></button>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const deleteButton = document.getElementById('trigger-delete-modal');
+    const deleteModal = document.getElementById('delete-modal');
+    const cancelDeleteButton = document.getElementById('cancel-delete');
+    const modalCloseButton = deleteModal.querySelector('.modal-close');
+
+    deleteButton.addEventListener('click', (event) => {
+      event.preventDefault();
+      deleteModal.classList.add('is-active');
+    });
+
+    const closeModal = () => {
+      deleteModal.classList.remove('is-active');
+    };
+
+    cancelDeleteButton.addEventListener('click', closeModal);
+    modalCloseButton.addEventListener('click', closeModal);
+    deleteModal.querySelector('.modal-background').addEventListener('click', closeModal);
+  });
+</script>
